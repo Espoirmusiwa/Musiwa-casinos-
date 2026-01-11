@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Machine à sous - MUSIWA CASINOS</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to bottom, #000, #1b1b1b);
+        color: #fff;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    header {
+        text-align: center;
+        padding: 15px;
+        border-bottom: 2px solid gold;
+    }
+
+    header h1 {
+        margin: 0;
+        color: gold;
+    }
+
+    .game-container {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 15px;
+    }
+
+    .slot-machine {
+        background-color: rgba(0,0,0,0.85);
+        border: 2px solid gold;
+        border-radius: 18px;
+        padding: 20px;
+        max-width: 420px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .slots {
+        display: flex;
+        justify-content: space-between;
+        margin: 20px 0;
+    }
+
+    .slot {
+        width: 90px;
+        height: 90px;
+        background-color: #111;
+        border: 2px solid gold;
+        border-radius: 10px;
+        font-size: 2.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .result {
+        margin: 10px 0;
+        font-weight: bold;
+        min-height: 24px;
+    }
+
+    .balance {
+        margin: 10px 0;
+        color: gold;
+        font-weight: bold;
+    }
+
+    select, button {
+        width: 100%;
+        padding: 12px;
+        margin-top: 10px;
+        border-radius: 8px;
+        border: none;
+        font-size: 1rem;
+    }
+
+    button {
+        background-color: gold;
+        color: black;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: orange;
+    }
+
+    footer {
+        text-align: center;
+        font-size: 0.85rem;
+        color: #ccc;
+        padding: 12px 0;
+        border-top: 1px solid #333;
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🎰 Machine à sous</h1>
+</header>
+
+<div class="game-container">
+    <div class="slot-machine">
+
+        <!-- VISUEL DES ROULEAUX -->
+        <div class="slots">
+            <div class="slot" id="slot1">🍒</div>
+            <div class="slot" id="slot2">🍋</div>
+            <div class="slot" id="slot3">🔔</div>
+        </div>
+
+        <div class="result" id="result">
+            Appuyez sur jouer pour lancer
+        </div>
+
+        <div class="balance">
+            Solde : <span id="balance">10000</span> FC
+        </div>
+
+        <label>Mise :</label>
+        <select id="bet">
+            <option value="500">500 FC</option>
+            <option value="1000">1 000 FC</option>
+            <option value="2000">2 000 FC</option>
+        </select>
+
+        <button onclick="playGame()">Jouer</button>
+
+    </div>
+</div>
+
+<footer>
+    &copy; 2026 MUSIWA CASINOS – Jeu responsable 18+
+</footer>
+
+<script>
+    let balance = 10000;
+    const symbols = ["🍒", "🍋", "🔔", "⭐", "7️⃣"];
+
+    function playGame() {
+        let bet = parseInt(document.getElementById("bet").value);
+        let result = document.getElementById("result");
+
+        if (balance < bet) {
+            result.style.color = "red";
+            result.textContent = "Solde insuffisant ;"
+            return;
+        }
+
+        balance -= bet;
+
+        let s1 = symbols[Math.floor(Math.random() * symbols.length)];
+        let s2 = symbols[Math.floor(Math.random() * symbols.length)];
+        let s3 = symbols[Math.floor(Math.random() * symbols.length)];
+
+        document.getElementById("slot1").textContent = s1;
+        document.getElementById("slot2").textContent = s2;
+        document.getElementById("slot3").textContent = s3;
+
+        if (s1 === s2 && s2 === s3) {
+            let gain = bet * 3;
+            balance += gain;
+            result.style.color = "lime";
+            result.textContent = " JACKPOT ! Vous gagnez " + gain + " FC";
+        } else {
+            result.style.color = "orange";
+            result.textContent = "Perdu. Réessayez.";
+        }
+
+        document.getElementById("balance").textContent = balance;
+    }
+</script>
+
+</body>
+</html>

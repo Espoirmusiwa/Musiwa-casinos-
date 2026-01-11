@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tableau de Bord - MUSIWA CASINOS</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin:0;
+        background: url('https://images.unsplash.com/photo-1581090700227-92b6ec0d8707?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+        background-size: cover;
+        color: #fff;
+        min-height: 100vh;
+    }
+    .overlay {
+        position: absolute;
+        top:0; left:0; width:100%; height:100%;
+        background-color: rgba(0,0,0,0.6);
+        z-index:1;
+    }
+    header {
+        position: relative;
+        z-index:2;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 30px;
+        background-color: rgba(0,0,0,0.5);
+    }
+    .menu-icon {
+        font-size: 2rem;
+        cursor: pointer;
+        color: gold;
+        text-decoration: none;
+    }
+    .balance {
+        background-color: gold;
+        color: black;
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-weight: bold;
+    }
+    .games-section {
+        position: relative;
+        z-index:2;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 25px;
+        padding: 30px;
+    }
+    .game-card {
+        width: 150px;
+        height: 150px;
+        background-color: rgba(255,215,0,0.1);
+        border: 2px solid gold;
+        border-radius: 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    .game-card:hover {
+        background-color: gold;
+        color: black;
+        transform: scale(1.1);
+    }
+    .game-card img {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 10px;
+    }
+    .invite-link {
+        position: relative;
+        z-index:2;
+        text-align: center;
+        margin: 30px auto 60px auto;
+    }
+    .invite-link a {
+        background-color: gold;
+        color: black;
+        padding: 12px 25px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+    .invite-link a:hover {
+        background-color: orange;
+        transform: scale(1.05);
+    }
+    .footer-note {
+        position: relative;
+        z-index:2;
+        text-align: center;
+        font-size: 0.85rem;
+        color: #ddd;
+        margin-bottom: 20px;
+    }
+    @media(max-width:600px){
+        .games-section { gap:15px; }
+        .game-card { width:120px; height:120px; }
+        .game-card img { width:50px; height:50px; }
+        .invite-link a { padding: 8px 15px; font-size:0.9rem; }
+    }
+</style>
+</head>
+<body>
+<div class="overlay"></div>
+
+<header>
+    <a href="menu.html" class="menu-icon">&#9776;</a>
+    <div class="balance">Solde: <span id="userBalance">0 FC</span></div>
+</header>
+
+<section class="games-section">
+    <a href="jeu1.html" class="game-card">
+        <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="Roulette">
+        Roulette
+    </a>
+    <a href="jeu2.html" class="game-card">
+        <img src="https://cdn-icons-png.flaticon.com/512/616/616494.png" alt="Blackjack">
+        Blackjack
+    </a>
+    <a href="jeu3.html" class="game-card">
+        <img src="https://cdn-icons-png.flaticon.com/512/616/616429.png" alt="Poker">
+        Poker
+    </a>
+    <a href="jeu4.html" class="game-card">
+        <img src="https://cdn-icons-png.flaticon.com/512/616/616405.png" alt="Slots">
+        Slots
+    </a>
+    <a href="jeu5.html" class="game-card">
+        <img src="https://cdn-icons-png.flaticon.com/512/616/616434.png" alt="Baccarat">
+        Baccarat
+    </a>
+    <a href="jeu6.html" class="game-card">
+        <img src="https://cdn-icons-png.flaticon.com/512/616/616423.png" alt="Craps">
+        Craps
+    </a>
+</section>
+
+<div class="invite-link">
+    <a href="invitation.html">Invitez 2 amis et recevez 2000 FC !</a>
+</div>
+
+<div class="footer-note">
+    &copy; 2026 MUSIWA CASINOS. Tous droits réservés. Jeu responsable. 18+.
+</div>
+</body>
+</html>

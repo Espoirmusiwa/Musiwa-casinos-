@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roulette - MUSIWA CASINOS</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to bottom, #000, #1b1b1b);
+        color: #fff;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    header {
+        text-align: center;
+        padding: 15px;
+        border-bottom: 2px solid gold;
+    }
+
+    header h1 {
+        margin: 0;
+        color: gold;
+    }
+
+    .game-container {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 15px;
+    }
+
+    .roulette-box {
+        background-color: rgba(0,0,0,0.85);
+        border: 2px solid gold;
+        border-radius: 18px;
+        padding: 20px;
+        max-width: 420px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .wheel {
+        width: 160px;
+        height: 160px;
+        border-radius: 50%;
+        border: 5px solid gold;
+        margin: 15px auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+
+    .wheel.red { background-color: #b00000; }
+    .wheel.black { background-color: #000; }
+    .wheel.green { background-color: #006400; }
+
+    .result {
+        min-height: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .balance {
+        color: gold;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    select, button {
+        width: 100%;
+        padding: 12px;
+        margin-top: 8px;
+        border-radius: 8px;
+        border: none;
+        font-size: 1rem;
+    }
+
+    button {
+        background-color: gold;
+        color: black;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: orange;
+    }
+
+    footer {
+        text-align: center;
+        font-size: 0.85rem;
+        color: #ccc;
+        padding: 12px 0;
+        border-top: 1px solid #333;
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🎯 Roulette</h1>
+</header>
+
+<div class="game-container">
+    <div class="roulette-box">
+
+        <!-- ROUE -->
+        <div class="wheel" id="wheel">
+            Tournez la roue
+        </div>
+
+        <div class="result" id="result">
+            Choisissez une couleur
+        </div>
+
+        <div class="balance">
+            Solde : <span id="balance">10000</span> FC
+        </div>
+
+        <label>Choisir la couleur :</label>
+        <select id="color">
+            <option value="red">Rouge</option>
+            <option value="black">Noir</option>
+            <option value="green">Vert</option>
+        </select>
+
+        <label>Mise :</label>
+        <select id="bet">
+            <option value="500">500 FC</option>
+            <option value="1000">1 000 FC</option>
+            <option value="2000">2 000 FC</option>
+        </select>
+
+        <button onclick="spin()">Lancer la roulette</button>
+
+    </div>
+</div>
+
+<footer>
+    &copy; 2026 MUSIWA CASINOS – Jeu responsable 18+
+</footer>
+
+<script>
+    let balance = 10000;
+
+    function spin() {
+        let bet = parseInt(document.getElementById("bet").value);
+        let choice = document.getElementById("color").value;
+        let result = document.getElementById("result");
+        let wheel = document.getElementById("wheel");
+
+        if (balance < bet) {
+            result.style.color = "red";
+            result.textContent = "Solde insuffisant ❌";
+            return;
+        }
+
+        balance -= bet;
+
+        // Probabilités simples
+        let rand = Math.random();
+        let color;
+
+        if (rand < 0.45) color = "red";
+        else if (rand < 0.9) color = "black";
+        else color = "green";
+
+        wheel.className = "wheel " + color;
+        wheel.textContent = color.toUpperCase();
+
+        if (choice === color) {
+            let gain = (color === "green") ? bet * 5 : bet * 2;
+            balance += gain;
+            result.style.color = "lime";
+            result.textContent = " Gagné ! +" + gain + " FC";
+        } else {
+            result.style.color = "orange";
+            result.textContent = " Perdu";
+        }
+
+        document.getElementById("balance").textContent = balance;
+    }
+</script>
+
+</body>
+</html>

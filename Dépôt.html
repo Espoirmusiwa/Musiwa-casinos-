@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dépôt - MUSIWA CASINOS</title>
+<style>
+    html, body {
+        height: 100%;
+        margin: 0;
+        font-family: Arial, sans-serif;
+    }
+    body {
+        display: flex;
+        flex-direction: column;
+        background: url('https://images.unsplash.com/photo-1581090700227-92b6ec0d8707?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+        background-size: cover;
+        color: #fff;
+    }
+    .overlay {
+        position: fixed;
+        top:0; left:0; width:100%; height:100%;
+        background-color: rgba(0,0,0,0.6);
+        z-index:1;
+    }
+    .content {
+        position: relative;
+        z-index:2;
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+    .deposit-container {
+        max-width: 500px;
+        width: 100%;
+        background-color: rgba(0,0,0,0.6);
+        border: 2px solid gold;
+        border-radius: 15px;
+        padding: 30px;
+        text-align: center;
+    }
+    .deposit-container h2 {
+        color: gold;
+        margin-bottom: 25px;
+    }
+    .deposit-container select, 
+    .deposit-container input {
+        width: 80%;
+        padding: 12px;
+        margin: 15px 0;
+        border-radius: 10px;
+        border: none;
+        font-size: 1rem;
+        text-align: center;
+    }
+    .deposit-container button {
+        background-color: gold;
+        color: black;
+        padding: 12px 0;
+        width: 50%;
+        border: none;
+        border-radius: 10px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    .deposit-container button:hover {
+        background-color: orange;
+        transform: scale(1.05);
+    }
+    footer {
+        text-align: center;
+        font-size: 0.85rem;
+        color: #ddd;
+        padding: 15px 0;
+        z-index:2;
+    }
+    @media(max-width:600px){
+        .deposit-container { padding:20px; }
+        .deposit-container select, .deposit-container input { width: 90%; padding:10px; font-size:0.95rem; }
+        .deposit-container button { width: 70%; padding:10px; font-size:0.95rem; }
+    }
+</style>
+</head>
+<body>
+<div class="overlay"></div>
+
+<div class="content">
+    <div class="deposit-container">
+        <h2>Dépôt</h2>
+        <label for="method"><strong>Choisissez votre moyen de dépôt :</strong></label><br>
+        <select id="method" onchange="showInput()">
+            <option value="">-- Sélectionnez --</option>
+            <option value="airtel">Airtel Money</option>
+            <option value="vodacom">Vodacom</option>
+            <option value="orange">Orange Money</option>
+            <option value="afficell">Afficell</option>
+        </select>
+
+        <div id="airtelDiv" style="display:none;">
+            <input type="text" id="airtelNum" placeholder="Entrez votre numéro Airtel">
+        </div>
+        <div id="vodacomDiv" style="display:none;">
+            <input type="text" id="vodacomNum" placeholder="Entrez votre numéro Vodacom">
+        </div>
+        <div id="orangeDiv" style="display:none;">
+            <input type="text" id="orangeNum" placeholder="Entrez votre numéro Orange">
+        </div>
+        <div id="afficellDiv" style="display:none;">
+            <input type="text" id="afficellNum" placeholder="Entrez votre numéro Afficell">
+        </div>
+
+        <!-- Nouveau champ pour le montant -->
+        <input type="number" id="depositAmount" placeholder="Entrez le montant du dépôt (FC)" min="100" step="100">
+
+        <button onclick="submitDeposit()">Confirmer le dépôt</button>
+        <p id="msg" style="margin-top:15px;"></p>
+    </div>
+</div>
+
+<footer>
+    &copy; 2026 MUSIWA CASINOS. Tous droits réservés. Jeu responsable. 18+.
+</footer>
+
+<script>
+    function showInput() {
+        const method = document.getElementById("method").value;
+        document.getElementById("airtelDiv").style.display = method === "airtel" ? "block" : "none";
+        document.getElementById("vodacomDiv").style.display = method === "vodacom" ? "block" : "none";
+        document.getElementById("orangeDiv").style.display = method === "orange" ? "block" : "none";
+        document.getElementById("afficellDiv").style.display = method === "afficell" ? "block" : "none";
+    }
+
+    function submitDeposit() {
+        const method = document.getElementById("method").value;
+        const amount = document.getElementById("depositAmount").value;
+        let num = "";
+
+        if(method === "airtel") num = document.getElementById("airtelNum").value;
+        else if(method === "vodacom") num = document.getElementById("vodacomNum").value;
+        else if(method === "orange") num = document.getElementById("orangeNum").value;
+        else if(method === "afficell") num = document.getElementById("afficellNum").value;
+
+        if(!method) {
+            document.getElementById("msg").textContent = "Veuillez sélectionner un moyen de dépôt.";
+        } else if(!num) {
+            document.getElementById("msg").textContent = "Veuillez entrer le numéro correspondant.";
+        } else if(!amount || amount <= 0) {
+            document.getElementById("msg").textContent = "Veuillez entrer un montant valide.";
+        } else {
+            document.getElementById("msg").textContent = 
+                `Votre dépôt de ${amount} FC via ${method.charAt(0).toUpperCase() + method.slice(1)} est en cours pour le numéro ${num}.`;
+        }
+    }
+</script>
+</body>
+</html>

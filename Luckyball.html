@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lucky Ball - MUSIWA CASINOS</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to bottom, #000, #1b1b1b);
+        color: #fff;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    header {
+        text-align: center;
+        padding: 15px;
+        border-bottom: 2px solid gold;
+    }
+
+    header h1 {
+        margin: 0;
+        color: gold;
+    }
+
+    .game-container {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 15px;
+    }
+
+    .lucky-box {
+        background-color: rgba(0,0,0,0.85);
+        border: 2px solid gold;
+        border-radius: 18px;
+        padding: 20px;
+        max-width: 420px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .ball-display {
+        font-size: 3rem;
+        width: 100px;
+        height: 100px;
+        background-color: gold;
+        color: black;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 15px auto;
+        font-weight: bold;
+    }
+
+    .result {
+        min-height: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .balance {
+        color: gold;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    select, button {
+        width: 100%;
+        padding: 12px;
+        margin-top: 8px;
+        border-radius: 8px;
+        border: none;
+        font-size: 1rem;
+    }
+
+    button {
+        background-color: gold;
+        color: black;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: orange;
+    }
+
+    footer {
+        text-align: center;
+        font-size: 0.85rem;
+        color: #ccc;
+        padding: 12px 0;
+        border-top: 1px solid #333;
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🔵 Lucky Ball</h1>
+</header>
+
+<div class="game-container">
+    <div class="lucky-box">
+
+        <div class="section-title">Boule tirée :</div>
+        <div class="ball-display" id="ball">?</div>
+
+        <div class="result" id="result">Choisissez un numéro et misez</div>
+
+        <div class="balance">
+            Solde : <span id="balance">10000</span> FC
+        </div>
+
+        <label>Choisir un numéro (1 à 10) :</label>
+        <select id="number">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+
+        <label>Mise :</label>
+        <select id="bet">
+            <option value="500">500 FC</option>
+            <option value="1000">1000 FC</option>
+            <option value="2000">2000 FC</option>
+        </select>
+
+        <button onclick="playLuckyBall()">Jouer</button>
+
+    </div>
+</div>
+
+<footer>
+    &copy; 2026 MUSIWA CASINOS – Jeu responsable 18+
+</footer>
+
+<script>
+    let balance = 10000;
+
+    function playLuckyBall() {
+        let bet = parseInt(document.getElementById("bet").value);
+        let chosen = parseInt(document.getElementById("number").value);
+        let result = document.getElementById("result");
+        let ball = document.getElementById("ball");
+
+        if(balance < bet){
+            result.style.color = "red";
+            result.textContent = "Solde insuffisant ";
+            return;
+        }
+
+        balance -= bet;
+
+        // Tirage aléatoire 1 à 5
+        let drawn = Math.floor(Math.random() * 5) + 1;
+        ball.textContent = drawn;
+
+        if(chosen === drawn){
+            let gain = bet * 5;
+            balance += gain;
+            result.style.color = "lime";
+            result.textContent = " Gagné ! +" + gain + " FC";
+        } else {
+            result.style.color = "orange";
+            result.textContent = " Perdu";
+        }
+
+        document.getElementById("balance").textContent = balance;
+    }
+</script>
+
+</body>
+</html>

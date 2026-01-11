@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Poker - MUSIWA CASINOS</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to bottom, #000, #1b1b1b);
+        color: #fff;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    header {
+        text-align: center;
+        padding: 15px;
+        border-bottom: 2px solid gold;
+    }
+
+    header h1 {
+        margin: 0;
+        color: gold;
+    }
+
+    .game-container {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 15px;
+    }
+
+    .poker-box {
+        background-color: rgba(0,0,0,0.85);
+        border: 2px solid gold;
+        border-radius: 18px;
+        padding: 20px;
+        max-width: 420px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .cards {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 10px;
+        font-size: 2rem;
+    }
+
+    .result {
+        margin: 10px 0;
+        font-weight: bold;
+        min-height: 24px;
+    }
+
+    .balance {
+        color: gold;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    select, button {
+        width: 100%;
+        padding: 12px;
+        margin-top: 8px;
+        border-radius: 8px;
+        border: none;
+        font-size: 1rem;
+    }
+
+    button {
+        background-color: gold;
+        color: black;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: orange;
+    }
+
+    footer {
+        text-align: center;
+        font-size: 0.85rem;
+        color: #ccc;
+        padding: 12px 0;
+        border-top: 1px solid #333;
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>♠️ Poker</h1>
+</header>
+
+<div class="game-container">
+    <div class="poker-box">
+
+        <div class="section-title">Vos cartes :</div>
+        <div class="cards" id="playerCards">🂠 🂠</div>
+
+        <div class="section-title">Cartes communes :</div>
+        <div class="cards" id="tableCards">🂠 🂠 🂠 🂠 🂠</div>
+
+        <div class="result" id="result">Cliquez sur Commencer</div>
+
+        <div class="balance">
+            Solde : <span id="balance">10000</span> FC
+        </div>
+
+        <label>Mise :</label>
+        <select id="bet">
+            <option value="500">500 FC</option>
+            <option value="1000">1 000 FC</option>
+            <option value="2000">2 000 FC</option>
+        </select>
+
+        <button onclick="startGame()">Commencer</button>
+
+    </div>
+</div>
+
+<footer>
+    &copy; 2026 MUSIWA CASINOS – Jeu responsable 18+
+</footer>
+
+<script>
+    let balance = 10000;
+    const cards = ["🂡","🂢","🂣","🂤","🂥","🂦","🂧","🂨","🂩","🂪","🂫","🂭","🂮"];
+
+    function getRandomCard() {
+        return cards[Math.floor(Math.random() * cards.length)];
+    }
+
+    function startGame() {
+        let bet = parseInt(document.getElementById("bet").value);
+        let result = document.getElementById("result");
+
+        if (balance < bet) {
+            result.style.color = "red";
+            result.textContent = "Solde insuffisant ❌";
+            return;
+        }
+
+        balance -= bet;
+        document.getElementById("balance").textContent = balance;
+
+        // cartes joueur
+        let player1 = getRandomCard();
+        let player2 = getRandomCard();
+        document.getElementById("playerCards").textContent = player1 + " " + player2;
+
+        // cartes table
+        let table = [];
+        for(let i=0; i<5; i++){
+            table.push(getRandomCard());
+        }
+        document.getElementById("tableCards").textContent = table.join(" ");
+
+        // logique simple : si les 2 cartes du joueur sont identiques → gagne
+        if(player1 === player2){
+            let gain = bet * 3;
+            balance += gain;
+            result.style.color = "lime";
+            result.textContent = " Gagné ! Vos cartes identiques → +" + gain + " FC";
+        } else {
+            result.style.color = "orange";
+            result.textContent = "Perdu. Essayez encore";
+        }
+
+        document.getElementById("balance").textContent = balance;
+    }
+</script>
+
+</body>
+</html>

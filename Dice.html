@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dice - MUSIWA CASINOS</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to bottom, #000, #1b1b1b);
+        color: #fff;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    header {
+        text-align: center;
+        padding: 15px;
+        border-bottom: 2px solid gold;
+    }
+
+    header h1 {
+        margin: 0;
+        color: gold;
+    }
+
+    .game-container {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 15px;
+    }
+
+    .dice-box {
+        background-color: rgba(0,0,0,0.85);
+        border: 2px solid gold;
+        border-radius: 18px;
+        padding: 20px;
+        max-width: 420px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .dice-area {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        margin: 20px 0;
+    }
+
+    .dice {
+        width: 90px;
+        height: 90px;
+        background-color: #111;
+        border: 2px solid gold;
+        border-radius: 12px;
+        font-size: 3rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .result {
+        margin: 10px 0;
+        font-weight: bold;
+        min-height: 24px;
+    }
+
+    .balance {
+        margin: 10px 0;
+        color: gold;
+        font-weight: bold;
+    }
+
+    select, button {
+        width: 100%;
+        padding: 12px;
+        margin-top: 10px;
+        border-radius: 8px;
+        border: none;
+        font-size: 1rem;
+    }
+
+    button {
+        background-color: gold;
+        color: black;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: orange;
+    }
+
+    footer {
+        text-align: center;
+        font-size: 0.85rem;
+        color: #ccc;
+        padding: 12px 0;
+        border-top: 1px solid #333;
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🎲 Jeu Dice</h1>
+</header>
+
+<div class="game-container">
+    <div class="dice-box">
+
+        <!-- VISUEL DES DÉS -->
+        <div class="dice-area">
+            <div class="dice" id="dice1">⚀</div>
+            <div class="dice" id="dice2">⚁</div>
+        </div>
+
+        <div class="result" id="result">
+            Lancez les dés pour jouer
+        </div>
+
+        <div class="balance">
+            Solde : <span id="balance">10000</span> FC
+        </div>
+
+        <label>Mise :</label>
+        <select id="bet">
+            <option value="500">500 FC</option>
+            <option value="1000">1 000 FC</option>
+            <option value="2000">2 000 FC</option>
+        </select>
+
+        <button onclick="rollDice()">Lancer les dés</button>
+
+    </div>
+</div>
+
+<footer>
+    &copy; 2026 MUSIWA CASINOS – Jeu responsable 18+
+</footer>
+
+<script>
+    let balance = 10000;
+    const diceFaces = ["⚀","⚁","⚂","⚃","⚄","⚅"];
+
+    function rollDice() {
+        let bet = parseInt(document.getElementById("bet").value);
+        let result = document.getElementById("result");
+
+        if (balance < bet) {
+            result.style.color = "red";
+            result.textContent = "Solde insuffisant ;"
+            return;
+        }
+
+        balance -= bet;
+
+        let d1 = Math.floor(Math.random() * 6);
+        let d2 = Math.floor(Math.random() * 6);
+
+        document.getElementById("dice1").textContent = diceFaces[d1];
+        document.getElementById("dice2").textContent = diceFaces[d2];
+
+        let sum = d1 + d2 + 2; // valeurs réelles 1 à 6
+
+        if (sum >= 9) {
+            let gain = bet * 2;
+            balance += gain;
+            result.style.color = "lime";
+            result.textContent = " Gagné ! Somme = " + sum + " → +" + gain + " FC";
+        } else {
+            result.style.color = "orange";
+            result.textContent = "Perdu. Somme = " + sum;
+        }
+
+        document.getElementById("balance").textContent = balance;
+    }
+</script>
+
+</body>
+</html>

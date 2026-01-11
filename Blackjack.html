@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blackjack - MUSIWA CASINOS</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to bottom, #000, #1b1b1b);
+        color: #fff;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    header {
+        text-align: center;
+        padding: 15px;
+        border-bottom: 2px solid gold;
+    }
+
+    header h1 {
+        margin: 0;
+        color: gold;
+    }
+
+    .game-container {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 15px;
+    }
+
+    .blackjack-box {
+        background-color: rgba(0,0,0,0.85);
+        border: 2px solid gold;
+        border-radius: 18px;
+        padding: 20px;
+        max-width: 460px;
+        width: 100%;
+    }
+
+    .section-title {
+        color: gold;
+        margin-bottom: 5px;
+        text-align: center;
+    }
+
+    .cards {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-bottom: 10px;
+        font-size: 2rem;
+    }
+
+    .score {
+        text-align: center;
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+
+    .result {
+        text-align: center;
+        font-weight: bold;
+        min-height: 24px;
+        margin-bottom: 10px;
+    }
+
+    .balance {
+        text-align: center;
+        color: gold;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    select, button {
+        width: 100%;
+        padding: 12px;
+        margin-top: 8px;
+        border-radius: 8px;
+        border: none;
+        font-size: 1rem;
+    }
+
+    button {
+        background-color: gold;
+        color: black;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: orange;
+    }
+
+    .buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    footer {
+        text-align: center;
+        font-size: 0.85rem;
+        color: #ccc;
+        padding: 12px 0;
+        border-top: 1px solid #333;
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🃏 Blackjack</h1>
+</header>
+
+<div class="game-container">
+    <div class="blackjack-box">
+
+        <!-- BANQUE -->
+        <div class="section-title">Banque</div>
+        <div class="cards" id="dealerCards">🂠 🂠</div>
+        <div class="score" id="dealerScore">Score : ?</div>
+
+        <hr style="border-color:#333">
+
+        <!-- JOUEUR -->
+        <div class="section-title">Vous</div>
+        <div class="cards" id="playerCards">🂠 🂠</div>
+        <div class="score" id="playerScore">Score : 0</div>
+
+        <div class="result" id="result">
+            Cliquez sur "Commencer"
+        </div>
+
+        <div class="balance">
+            Solde : <span id="balance">10000</span> FC
+        </div>
+
+        <label>Mise :</label>
+        <select id="bet">
+            <option value="500">500 FC</option>
+            <option value="1000">1 000 FC</option>
+            <option value="2000">2 000 FC</option>
+        </select>
+
+        <button onclick="startGame()">Commencer</button>
+
+        <div class="buttons">
+            <button onclick="hit()">Carte</button>
+            <button onclick="stand()">Rester</button>
+        </div>
+
+    </div>
+</div>
+
+<footer>
+    &copy; 2026 MUSIWA CASINOS – Jeu responsable 18+
+</footer>
+
+<script>
+    let balance = 10000;
+    let bet = 0;
+    let playerScore = 0;
+    let dealerScore = 0;
+    let gameActive = false;
+
+    function drawCard() {
+        return Math.floor(Math.random() * 10) + 1; // cartes simples 1–10
+    }
+
+    function startGame() {
+        bet = parseInt(document.getElementById("bet").value);
+        if (balance < bet) {
+            document.getElementById("result").textContent = "Solde insuffisant ❌";
+            document.getElementById("result").style.color = "red";
+            return;
+        }
+
+        balance -= bet;
+        gameActive = true;
+
+        playerScore = drawCard() + drawCard();
+        dealerScore = drawCard() + drawCard();
+
+        document.getElementById("playerScore").textContent = "Score : " + playerScore;
+        document.getElementById("dealerScore").textContent = "Score : ?";
+        document.getElementById("dealerCards").textContent = "🂠 🂠";
+        document.getElementById("playerCards").textContent = "🂠 🂠";
+        document.getElementById("balance").textContent = balance;
+
+        document.getElementById("result").textContent = "À vous de jouer";
+        document.getElementById("result").style.color = "white";
+    }
+
+    function hit() {
+        if (!gameActive) return;
+
+        playerScore += drawCard();
+        document.getElementById("playerCards").textContent += " 🂠";
+        document.getElementById("playerScore").textContent = "Score : " + playerScore;
+
+        if (playerScore > 21) {
+            endGame(false);
+        }
+    }
+
+    function stand() {
+        if (!gameActive) return;
+
+        document.getElementById("dealerScore").textContent = "Score : " + dealerScore;
+
+        if (dealerScore >= playerScore && dealerScore <= 21) {
+            endGame(false);
+        } else {
+            endGame(true);
+        }
+    }
+
+    function endGame(win) {
+        gameActive = false;
+        if (win) {
+            let gain = bet * 2;
+            balance += gain;
+            document.getElementById("result").textContent = "Vous gagnez " + gain + " FC";
+            document.getElementById("result").style.color = "lime";
+        } else {
+            document.getElementById("result").textContent = " Perdu";
+            document.getElementById("result").style.color = "orange";
+        }
+        document.getElementById("balance").textContent = balance;
+    }
+</script>
+
+</body>
+</html>
